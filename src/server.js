@@ -3,6 +3,7 @@ const listEndpoints = require("express-list-endpoints");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const weatherApiRouter = require("../src/weather/index");
+const usersRouter = require("../src/users/index");
 
 //SERVER
 const server = express();
@@ -19,6 +20,7 @@ const {
 server.use(cors());
 server.use(express.json());
 server.use("/weather", weatherApiRouter);
+server.use("/users", usersRouter);
 
 // ERROR HANDLERS MIDDLEWARES
 server.use(badRequestHandler);
