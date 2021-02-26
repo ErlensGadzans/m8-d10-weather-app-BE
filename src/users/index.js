@@ -2,6 +2,7 @@ const express = require("express");
 const { authenticate } = require("../auth");
 const UserModel = require("../users/schema");
 const { authorize } = require("../auth/middlew");
+const passport = require("passport");
 
 const usersRouter = express.Router();
 
@@ -38,5 +39,20 @@ usersRouter.get("/", authorize, async (req, res, next) => {
     next(error);
   }
 });
+
+// END POINTS
+usersRouter.get(
+  "/googleLogin",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+usersRouter.get(
+  "/googleRedirect",
+  passport.authenticate("google"),
+  async (req, res, next) => {
+    res.cookie("accessToken", req.user.accessToken, { httpOnly: true });
+    res.redirect(process.env.LOCAL_URL + "accessToken" + req.user.accessToken); //FROM FRONTEND JS IS NOT ABLE CHECK CONTENT. PROTECTING TOKENS.
+  }
+);
 
 module.exports = usersRouter;

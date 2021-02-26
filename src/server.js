@@ -4,6 +4,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const weatherApiRouter = require("../src/weather/index");
 const usersRouter = require("../src/users/index");
+const oauth = require("../src/auth/oauth"); // ATTACHING GOOGLE STRATEGY TO PASSPORT
+const passport = require("passport");
 
 //SERVER
 const server = express();
@@ -21,6 +23,7 @@ server.use(cors());
 server.use(express.json());
 server.use("/weather", weatherApiRouter);
 server.use("/users", usersRouter);
+server.use(passport.initialize()); //INITIALIZE PASSPORT
 
 // ERROR HANDLERS MIDDLEWARES
 server.use(badRequestHandler);

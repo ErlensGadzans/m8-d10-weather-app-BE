@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const UserSchema = new Schema({
   email: String,
   password: String,
+  googleId: String,
 });
 
 UserSchema.statics.findByCredentials = async function (email, plainPassword) {
