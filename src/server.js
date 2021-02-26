@@ -7,10 +7,22 @@ const mongoose = require("mongoose");
 const server = express();
 const port = process.env.PORT || 3077;
 
+const {
+  notFoundHandler,
+  forbiddenHandler,
+  badRequestHandler,
+  genericErrorHandler,
+} = require("../errorHandlers");
+
 //MIDDLEWARES
 server.use(cors());
 // server.use(express(json()));
 
+// ERROR HANDLERS MIDDLEWARES
+server.use(badRequestHandler);
+server.use(forbiddenHandler);
+server.use(notFoundHandler);
+server.use(genericErrorHandler);
 //
 console.log(listEndpoints(server));
 
