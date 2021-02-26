@@ -1,6 +1,7 @@
 const express = require("express");
 const { authenticate } = require("../auth");
 const UserModel = require("../users/schema");
+const { authorize } = require("../auth/middlew");
 
 const usersRouter = express.Router();
 
@@ -22,6 +23,16 @@ usersRouter.post("/login", async (req, res, next) => {
     const user = await UserModel.findByCredentials(email, password);
     const accessToken = await authenticate(user);
     res.send({ accessToken: accessToken });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
+usersRouter.get("/", authorize, async (req, res, next) => {
+  try {
+    const user = await UserModel.find();
+    res.send(user);
   } catch (error) {
     console.log(error);
     next(error);

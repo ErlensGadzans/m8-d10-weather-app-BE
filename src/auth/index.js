@@ -25,4 +25,11 @@ const generateJWT = (payload) =>
     )
   );
 
-module.exports = { authenticate };
+const verifyJWT = (token) =>
+  new Promise((resolve, reject) =>
+    jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
+      if (error) reject(error);
+      resolve(decoded);
+    })
+  );
+module.exports = { authenticate, verifyJWT };
